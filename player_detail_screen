@@ -1,0 +1,84 @@
+import 'package:flutter/material.dart';
+import 'player_model.dart';
+
+class PlayerDetailScreen extends StatelessWidget {
+  final Player player;
+
+  const PlayerDetailScreen({super.key, required this.player});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      appBar: AppBar(
+        title: Text(player.name),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            Center(
+              child: CircleAvatar(
+                radius: 70,
+                backgroundImage: NetworkImage(player.imagePath),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              player.name,
+              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            const Text("Verified Pickleballer", style: TextStyle(color: Colors.blueAccent)),
+            const SizedBox(height: 30),
+
+            // Stats Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildStatCard("Skill", player.skillRating.toString(), Colors.orangeAccent),
+                _buildStatCard("Fair Play", "95%", Colors.greenAccent),
+                _buildStatCard("Matches", "42", Colors.white70),
+              ],
+            ),
+
+            const SizedBox(height: 40),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Recent Player Feedback",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+            ),
+            const SizedBox(height: 15),
+
+            // Dummy feedback list
+            _buildFeedbackItem("Always on time and calls lines fairly."),
+            _buildFeedbackItem("Great teammate, very encouraging!"),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String label, String value, Color color) {
+    return Container(
+      width: 100,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        children: [
+          Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
+          Text(label, style: const TextStyle(fontSize: 12, color: Colors.white54)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeedbackItem(String text) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(10)),
+      child: Text(text, style: const TextStyle(color: Colors.white70)),
+    );
+  }
