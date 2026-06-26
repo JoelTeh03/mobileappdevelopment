@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'player_model.dart';
+import 'profile_screen.dart';
+import 'host_game_screen.dart';
+import 'login_screen.dart';
+import 'create_account_screen.dart';
+import 'games_list_screen.dart';
+import 'player_detail_screen.dart';
+import 'join_success_screen.dart';
+import 'event_detail_screen.dart';
+import 'match_detail_screen.dart';
+
+void main() => runApp(const FairPlayApp());
+
+class FairPlayApp extends StatelessWidget {
+  const FairPlayApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final joel = Player(
+        name: "Joel",
+        id: "me",
+        imagePath: 'https://api.dicebear.com/7.x/avataaars/png?seed=Joel',
+        skillRating: 4.2
+    );
+
+    final recent = [
+      Player(name: "Amanda Lee", id: "p1", imagePath: 'https://api.dicebear.com/7.x/avataaars/png?seed=Amanda'),
+      Player(name: "Chen Liu", id: "p2", imagePath: 'https://api.dicebear.com/7.x/avataaars/png?seed=Chen'),
+      Player(name: "Trevor Wong", id: "p3", imagePath: 'https://api.dicebear.com/7.x/avataaars/png?seed=Trevor'),
+    ];
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: const Color(0xFF3B82F6),
+        scaffoldBackgroundColor: const Color(0xFF0F172A),
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/signup': (context) => const CreateAccountScreen(),
+        '/games': (context) => const GamesListScreen(),
+        '/profile': (context) => ProfileScreen(
+          currentUser: joel,
+          recentOpponents: recent,
+          onHostPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HostGameScreen()),
+            );
+          },
+        ),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/player_detail') {
+          final player = settings.arguments as Player;
+          return MaterialPageRoute(
+            builder: (context) => PlayerDetailScreen(player: player),
+          );
+        }
+        return null;
+      },
+    );
+  }
+}
