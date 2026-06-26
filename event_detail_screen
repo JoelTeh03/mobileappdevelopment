@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+
+class EventDetailScreen extends StatelessWidget {
+  final String eventName;
+  final String hostName;
+
+  const EventDetailScreen({super.key, required this.eventName, required this.hostName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      appBar: AppBar(
+        title: const Text("Match Info"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(eventName, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
+            Text("Hosted by $hostName", style: const TextStyle(color: Colors.blueAccent, fontSize: 16)),
+            const SizedBox(height: 30),
+
+            _tile(Icons.location_on, "Location", "Sector 4 - Court B"),
+            _tile(Icons.timer, "Time", "Today, 5:00 PM"),
+            _tile(Icons.shield, "Required Rating", "4.0+"),
+
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/profile', (r) => false),
+                child: const Text("Back to Dashboard"),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _tile(IconData i, String l, String v) => Padding(
+    padding: const EdgeInsets.only(bottom: 20),
+    child: Row(children: [
+      Icon(i, color: Colors.white54),
+      const SizedBox(width: 15),
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(l, style: const TextStyle(color: Colors.white54, fontSize: 12)),
+        Text(v, style: const TextStyle(color: Colors.white, fontSize: 16)),
+      ])
+    ]),
+  );
+}
