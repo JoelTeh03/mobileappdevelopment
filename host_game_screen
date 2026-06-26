@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+
+class HostGameScreen extends StatefulWidget {
+  const HostGameScreen({super.key});
+
+  @override
+  State<HostGameScreen> createState() => _HostGameScreenState();
+}
+
+class _HostGameScreenState extends State<HostGameScreen> {
+  double minSportsmanship = 4.0;
+  double maxSkill = 4.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      appBar: AppBar(title: const Text("Host Session"), backgroundColor: Colors.transparent),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Smart Matchmaking Filters", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 30),
+            _label("Min Sportsmanship", "${(minSportsmanship * 20).toInt()}%"),
+            Slider(value: minSportsmanship, min: 1.0, max: 5.0, divisions: 40, activeColor: Colors.greenAccent, onChanged: (v) => setState(() => minSportsmanship = v)),
+            const SizedBox(height: 20),
+            _label("Max Skill Rating", maxSkill.toStringAsFixed(1)),
+            Slider(value: maxSkill, min: 1.0, max: 6.0, divisions: 50, activeColor: Colors.orangeAccent, onChanged: (v) => setState(() => maxSkill = v)),
+            const Spacer(),
+            SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent, padding: const EdgeInsets.all(18)),
+                    onPressed: () {
+                      // The pop-up message requested
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Your game has been hosted, Have Fun!"),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                      Navigator.pop(context); // Go back to profile
+                    },
+                    child: const Text("Create Session", style: TextStyle(fontWeight: FontWeight.bold))
+                )
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _label(String t, String v) => Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text(t), Text(v, style: const TextStyle(fontWeight: FontWeight.bold))]);
