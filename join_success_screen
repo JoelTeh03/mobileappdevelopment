@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'event_detail_screen.dart'; // Ensure you create this file next!
+
+class JoinSuccessScreen extends StatelessWidget {
+  final String eventName;
+  final String hostName;
+
+  const JoinSuccessScreen({
+    super.key,
+    required this.eventName,
+    required this.hostName
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.greenAccent,
+                child: Icon(Icons.check, size: 60, color: Color(0xFF0F172A)),
+              ),
+              const SizedBox(height: 30),
+              const Text(
+                "You're In!",
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "You have successfully joined $eventName hosted by $hostName.",
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white70, fontSize: 16),
+              ),
+              const SizedBox(height: 40),
+
+              Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.blueAccent.withOpacity(0.3)),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.blueAccent),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        "Remember: Your Peer Accountability rating will be updated after this match.",
+                        style: TextStyle(color: Colors.blueAccent, fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 50),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  ),
+                  // UPDATED: Now navigates forward to details
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailScreen(
+                          eventName: eventName,
+                          hostName: hostName,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text("View Event Details",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
